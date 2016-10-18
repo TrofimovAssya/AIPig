@@ -181,7 +181,7 @@ for game_number in xrange(1000000):
 	else:
 		AI_learn(decision_table=dt,log = log2,wins=True,lr=0.3)
 		AI_learn(decision_table=dt,log = log1,wins=False,lr=0.3)
-	if numpy.log10(game_number)%1 == 0:
+	if numpy.log10(game_number)%1 == 0 or (game_number%1000==0):
 		number_of_wins1 = test_game(dt, Strategy1_Decision)
 		number_of_wins2 = test_game(dt, Strategy2_Decision)
 		number_of_wins3 = test_game(dt, Strategy3_Decision)

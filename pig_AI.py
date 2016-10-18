@@ -33,13 +33,15 @@ def AI_Decision(i,j,k,decision_table):
 def AI_create(random_probs=False):
 	"""Player with a learned strategy 
 	Function that creates a decision_table for the AIplayer
-	either randomized of at 0.5 each
+	either randomized or set to strategy 1 decision table
 	"""
 	if (random_probs):
 		return numpy.random.rand(100,100,100)
 	else:
 		a = numpy.zeros((100,100,100))
-		a.fill((0.5))
+		a[:,:,25:].fill(1.0)
+		for i in xrange(100):
+			a[:,:,100-i:].fill(1.0)
 		return a
 
 
@@ -54,7 +56,7 @@ def AI_learn(decision_table,log,wins,lr=0.1):
 					decision_table[i[0], i[1], i[2]] = max(decision_table[i[0], i[1], i[2]] - lr,0)
 
 				elif decision_table[i[0], i[1], i[2]] >= 0.5:
-					decision_table[i[0], i[1], i[2]] = min((decision_table[i[0], i[1], i[2]] + lr),1)
+					decision_table[i[0], i[1], i[2]] = min(decision_table[i[0], i[1], i[2]] + lr,1)
 
 
 	else:

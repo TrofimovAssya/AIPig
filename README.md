@@ -25,6 +25,9 @@ Each slot contains a threshold. For each decision: roll a random number between 
 The learning: 
 Play many games. Record all moves. Penalize moves that resulted in a loss. Bonify moves that resulted in a win.
 
-## Performance
+## Performance: test #1
 After 100000 training steps, AI_pig outperforms strategies 2,3,4 but not 1.
 Will be doing more testing....
+
+## Performance: test #2
+Since strategy 1 is so good, added the initialization of the AI decision matrix to the Strategy1 (so zero everywhere except 1 for k>25 and k>100-i). 
