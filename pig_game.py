@@ -102,7 +102,7 @@ def game():
 	else:
 		print ("**************  Winner: player 2")
 
-def test_game(decision_table):
+def test_game(decision_table, strategy_opponent):
 	"""Game of Pig
 	i_1 and i_2 are the player's totals
 	j_1 and j_2 are the opponant's totals
@@ -125,7 +125,7 @@ def test_game(decision_table):
 				print "Player 2: " + str(j)
 			if i>=100:
 				break
-			j,i,k,log2 = turn(j,i,Strategy1_Decision,decision_table = dt, log=log2,verbose=False)
+			j,i,k,log2 = turn(j,i,strategy_opponent,decision_table = dt, log=log2,verbose=False)
 			if (verbose):
 				print "Player 1: " + str(i)
 				print "Player 2: " + str(j)
@@ -134,12 +134,13 @@ def test_game(decision_table):
 
 		if i > j:
 
-			print ("**************  Winner: player 1")
+			#print ("**************  Winner: player 1")
 			AIwins+=1
-		else:
-			print ("**************  Winner: player 2")
+	#	else:
+	#		print ("**************  Winner: player 2")
 	print AIwins
 	print ("AI has won " + str(float(AIwins)/1000*100) + " percent of games")
+	return AIwins
 
 
 
@@ -150,10 +151,13 @@ yes, yes i_1 = j_2 and vice-versa...
 
 k_1 and k_2 are the in hand values
 """
+
+
 verbose=False
-dt = AI_create(random_probs=True)
-for i in xrange(100000):
-	print ("game number "+ str(i))
+dt = AI_create(random_probs=False)
+results = []
+for game_number in xrange(1000000):
+	print ("game number "+ str(game_number))
 	log1 = []
 	log2 = []
 	i = 0
@@ -165,16 +169,21 @@ for i in xrange(100000):
 			print "Player 2: " + str(j)
 		if i>=100:
 			break
-		j,i,k,log2 = turn(j,i,AI_Decision,verbose=False, decision_table=dt,log = log2)
+		j,i,k,log2 = turn(j,i,Strategy1_Decision,verbose=False, decision_table=dt,log = log2)
 		if (verbose):
 			print "Player 1: " + str(i)
 			print "Player 2: " + str(j)
 		if j>=100:
 			break
 	if i > j:
-		AI_learn(decision_table=dt,log = log1,wins=True,lr=0.1)
-		AI_learn(decision_table=dt,log = log2,wins=False,lr=0.1)
+		AI_learn(decision_table=dt,log = log1,wins=True,lr=0.3)
+		AI_learn(decision_table=dt,log = log2,wins=False,lr=0.3)
 	else:
-		AI_learn(decision_table=dt,log = log2,wins=True,lr=0.1)
-		AI_learn(decision_table=dt,log = log1,wins=False,lr=0.1)
-
+		AI_learn(decision_table=dt,log = log2,wins=True,lr=0.3)
+		AI_learn(decision_table=dt,log = log1,wins=False,lr=0.3)
+	if numpy.log10(game_number)%1 == 0:
+		number_of_wins1 = test_game(dt, Strategy1_Decision)
+		number_of_wins2 = test_game(dt, Strategy2_Decision)
+		number_of_wins3 = test_game(dt, Strategy3_Decision)
+		number_of_wins4 = test_game(dt, Strategy4_Decision)
+		results.append([game_number, number_of_wins1, number_of_wins2, number_of_wins3, number_of_wins4])

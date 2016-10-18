@@ -51,19 +51,19 @@ def AI_learn(decision_table,log,wins,lr=0.1):
 	if wins==True:
 		for i in log:
 				if decision_table[i[0], i[1], i[2]] < 0.5:
-					decision_table[i[0], i[1], i[2]] = numpy.min(decision_table[i[0], i[1], i[2]] - 0.1,0)
+					decision_table[i[0], i[1], i[2]] = max(decision_table[i[0], i[1], i[2]] - lr,0)
 
 				elif decision_table[i[0], i[1], i[2]] >= 0.5:
-					decision_table[i[0], i[1], i[2]] = numpy.max(decision_table[i[0], i[1], i[2]] + 0.1,1)
+					decision_table[i[0], i[1], i[2]] = min((decision_table[i[0], i[1], i[2]] + lr),1)
 
 
 	else:
 		for i in log:
 				if decision_table[i[0], i[1], i[2]] < 0.5:
-					decision_table[i[0], i[1], i[2]] = numpy.max(decision_table[i[0], i[1], i[2]] + 0.1,1)
+					decision_table[i[0], i[1], i[2]] = min(decision_table[i[0], i[1], i[2]] + lr,1)
 					
 				elif decision_table[i[0], i[1], i[2]] >= 0.5:
-					decision_table[i[0], i[1], i[2]] = numpy.min(decision_table[i[0], i[1], i[2]] - 0.1,0)
+					decision_table[i[0], i[1], i[2]] = max(decision_table[i[0], i[1], i[2]] - lr,0)
 	
 
 	return decision_table
