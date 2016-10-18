@@ -12,10 +12,10 @@ The AI-strategy was first imagined as a lazy solution to finding a good strategy
 The hard-coded strategies taken from http://nifty.stanford.edu/2010/neller-pig/. 
 let i=players score, j=opponents score, k=current turn total
 
-Strategy 1: 	Holds at k > 25	or k >= 100-i
-Strategy 2: 	If i >= 69 or j >= 69, roll for the goal.  Otherwise, hold at the greater of 19 and j - 14.
-Strategy 3: 	If i >= 71 or j >= 71, roll for the goal.  Otherwise, hold at 21 + round((j - i) / 8).
-Strategy 4: 	Holds when you have rolled 4 times
+Strategy 1: 	Holds at k > 25	or k >= 100-i \n
+Strategy 2: 	If i >= 69 or j >= 69, roll for the goal.  Otherwise, hold at the greater of 19 and j - 14. \n
+Strategy 3: 	If i >= 71 or j >= 71, roll for the goal.  Otherwise, hold at 21 + round((j - i) / 8). \n
+Strategy 4: 	Holds when you have rolled 4 times \n
 
 
 ## Pig AI
