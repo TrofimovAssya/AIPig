@@ -114,7 +114,7 @@ def AI_learn(decision_table,log,wins,lr=0.1):
 	Function that teaches the AI player which were good decisions
 	with an update according to preset learning rate(lr)
 	"""
-	if win==True:
+	if wins==True:
 		for i in log:
 				if decision_table[i[0], i[1], i[2]] < 0.5:
 					decision_table[i[0], i[1], i[2]] -= 0.1
@@ -134,7 +134,7 @@ def AI_learn(decision_table,log,wins,lr=0.1):
 
 	return decision_table
 
-def turn(i,j,player,verbose=True, decision_table=None, roll_number=None):
+def turn(i,j,player,verbose=True, decision_table=None, roll_number=None, log=None):
 	"""Game of Pig - one turn
 	making the decision!
 
@@ -148,7 +148,9 @@ def turn(i,j,player,verbose=True, decision_table=None, roll_number=None):
 		### roll counts for strategy 4
 		if not(roll_number==None):
 			roll_number+=1
-		print "roll number "+ str(roll_number)
+		if (verbose):
+			print "roll number "+ str(roll_number)
+
 
 		### adding prints
 		if (verbose):
@@ -174,11 +176,13 @@ def turn(i,j,player,verbose=True, decision_table=None, roll_number=None):
 			print ("Player decided to: " + str(action))
 			print ("Player has " + str(k) + " points in hand: ")
 
+		log.append([i,j,k,action])
 
 
 	if action == "hold":
 		i+=k
-	return i,j,k
+
+	return i,j,k,log
 
 
 
@@ -191,21 +195,101 @@ def game():
 	k_1 and k_2 are the in hand values
 	"""
 	dt = AI_create(random_probs=True)
+	log1 = []
+	log2 = []
 	i = 0
 	j = 0
 	while i<=100 and j<=100:
-		i,j,k = turn(i,j,AI_Decision,decision_table=dt)
+		i,j,k,log1 = turn(i,j,AI_Decision,decision_table=dt,log=log1)
 		print "Player 1: " + str(i)
 		print "Player 2: " + str(j)
 		if i>=100:
 			break
-		j,i,k = turn(j,i,AI_Decision,decision_table=dt)
+		j,i,k,log2 = turn(j,i,AI_Decision,decision_table=dt,log = log2)
 		print "Player 1: " + str(i)
 		print "Player 2: " + str(j)
 		if j>=100:
 			break
-		
-	if i<j:
+	print i, j	
+	if i > j:
+
 		print ("**************  Winner: player 1")
 	else:
 		print ("**************  Winner: player 2")
+
+def test_game(decision_table):
+	"""Game of Pig
+	i_1 and i_2 are the player's totals
+	j_1 and j_2 are the opponant's totals
+	yes, yes i_1 = j_2 and vice-versa...
+
+	k_1 and k_2 are the in hand values
+	"""
+	AIwins = 0
+	verbose=False
+	for game_ix in xrange(1000):
+		dt = decision_table
+		log1 = []
+		log2 = []
+		i = 0
+		j = 0
+		while i<=100 and j<=100:
+			i,j,k,log1 = turn(i,j,AI_Decision,verbose=False, decision_table=dt,log=log1)
+			if (verbose):
+				print "Player 1: " + str(i)
+				print "Player 2: " + str(j)
+			if i>=100:
+				break
+			j,i,k,log2 = turn(j,i,AI_Decision,verbose=False, decision_table=dt,log = log2)
+			if (verbose):
+				print "Player 1: " + str(i)
+				print "Player 2: " + str(j)
+			if j>=100:
+				break
+
+		if i > j:
+
+			print ("**************  Winner: player 1")
+			AIwins+=1
+		else:
+			print ("**************  Winner: player 2")
+	print AIwins
+	print ("AI has won " + str(float(AIwins)/1000*100) + " percent of games")
+
+
+
+"""Game of Pig
+i_1 and i_2 are the player's totals
+j_1 and j_2 are the opponant's totals
+yes, yes i_1 = j_2 and vice-versa...
+
+k_1 and k_2 are the in hand values
+"""
+verbose=False
+dt = AI_create(random_probs=True)
+for i in xrange(100000):
+	print ("game number "+ str(i))
+	log1 = []
+	log2 = []
+	i = 0
+	j = 0
+	while i<=100 and j<=100:
+		i,j,k,log1 = turn(i,j,AI_Decision,verbose=False, decision_table=dt,log=log1)
+		if (verbose):
+			print "Player 1: " + str(i)
+			print "Player 2: " + str(j)
+		if i>=100:
+			break
+		j,i,k,log2 = turn(j,i,AI_Decision,verbose=False, decision_table=dt,log = log2)
+		if (verbose):
+			print "Player 1: " + str(i)
+			print "Player 2: " + str(j)
+		if j>=100:
+			break
+	if i > j:
+		AI_learn(decision_table=dt,log = log1,wins=True,lr=0.1)
+		AI_learn(decision_table=dt,log = log2,wins=False,lr=0.1)
+	else:
+		AI_learn(decision_table=dt,log = log2,wins=True,lr=0.1)
+		AI_learn(decision_table=dt,log = log1,wins=False,lr=0.1)
+
