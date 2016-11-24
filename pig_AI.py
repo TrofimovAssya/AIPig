@@ -3,10 +3,9 @@ import numpy
 
 """
 
-Game of Pig, developped for IFT1015 class, at University of Montreal, Fall of 2014
+Game of Pig, developped for Prof. Aaron Courville IFT1015 class, at University of Montreal, Fall of 2014
 by Assya Trofimov
 petitkalimero@gmail.com 
-Prof. Aaron Courville
 Hard-coded strategies taken from http://nifty.stanford.edu/2010/neller-pig/
 
 Couple of notes:
