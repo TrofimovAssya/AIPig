@@ -31,3 +31,5 @@ Will be doing more testing....
 
 ## Performance: test #2
 Since strategy 1 is so good, added the initialization of the AI decision matrix to the Strategy1 (so zero everywhere except 1 for k>25 and k>100-i). 
+## Performance: test #3
+Since expectation of the problem is ~17.5 points, I don't think the AI strategy can truly perform better. Will implement the solution by dynamic programming at some point, when I have time.
