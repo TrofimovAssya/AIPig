@@ -6,7 +6,6 @@ from pig_AI import AI_Decision, AI_create, AI_learn
 Game of Pig, developped for IFT1015 class, at University of Montreal, Fall of 2014
 by Assya Trofimov
 petitkalimero@gmail.com 
-Prof. Aaron Courville
 Hard-coded strategies taken from http://nifty.stanford.edu/2010/neller-pig/
 
 Couple of notes:
